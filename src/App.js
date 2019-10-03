@@ -1,26 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Navbar from './components/Navbar';
+import Users from './components/Users';
+import Spinner from './components/Spinner';
+
+const GITHUB_API_URL = `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_SECRET_ID}`;
+
+class App extends React.Component {
+  state = {
+    users: [],
+    loading: true,
+  };
+
+  async componentDidMount() {
+    const res = await fetch(GITHUB_API_URL);
+    const data = await res.json();
+
+    this.setState({ users: data, loading: false });
+  }
+
+  render() {
+    const { loading, users } = this.state;
+
+    return (
+      <div className="App">
+        <Navbar />
+        <div className="container">
+          {loading ? <Spinner /> : <Users users={users} />}
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
