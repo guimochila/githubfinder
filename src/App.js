@@ -5,7 +5,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import About from './pages/About';
 import Home from './pages/Home';
-import User from './components/User/User';
+import User from './pages/User';
 
 class App extends React.Component {
   render() {
