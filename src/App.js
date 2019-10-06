@@ -1,71 +1,25 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 
 import Navbar from './components/Navbar';
-import Users from './components/Users';
-import Spinner from './components/Spinner';
-import Search from './components/Search';
-import Alert from './components/Alert';
-
-const GITHUB_API_URL = 'https://api.github.com';
-const GITHUB_AUTHORIZATION = `client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`;
+import About from './pages/About';
+import Home from './pages/Home';
+import User from './components/User/User';
 
 class App extends React.Component {
-  state = {
-    users: [],
-    loading: true,
-    alert: null,
-  };
-
-  componentDidMount() {
-    this.getUsers();
-  }
-
-  getUsers = async () => {
-    const res = await fetch(`${GITHUB_API_URL}/users?${GITHUB_AUTHORIZATION}`);
-    const data = await res.json();
-
-    this.setState({ users: data, loading: false });
-  };
-
-  searchUsers = async (searchTerm = '') => {
-    const res = await fetch(
-      `${GITHUB_API_URL}/search/users?q=${searchTerm}&${GITHUB_AUTHORIZATION}`,
-    );
-    const data = await res.json();
-
-    this.setState({ users: data.items, loading: false });
-  };
-
-  clearUsers = () => {
-    this.setState({ users: [] });
-  };
-
-  setAlert = (message, type) => {
-    this.setState({ alert: { message, type } });
-
-    setTimeout(() => {
-      this.setState({ alert: null });
-    }, 5000);
-  };
-
   render() {
-    const { loading, users, alert } = this.state;
-
     return (
-      <div className="App">
-        <Navbar />
-        <div className="container">
-          <Alert alert={alert} />
-          <Search
-            searchUsers={this.searchUsers}
-            clearUsers={this.clearUsers}
-            shouldShowClearBtn={!!users.length}
-            setAlert={this.setAlert}
-          />
-          {loading ? <Spinner /> : <Users users={users} />}
+      <Router>
+        <div className="App">
+          <Navbar />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/user/:username" component={User} />
+            <Route exact path="/about" component={About} />
+          </Switch>
         </div>
-      </div>
+      </Router>
     );
   }
 }
