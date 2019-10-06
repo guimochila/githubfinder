@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 
 import Profile from '../../components/Profile';
 import Spinner from '../../components/Spinner';
-
-const GITHUB_API_URL = 'https://api.github.com';
-const GITHUB_AUTHORIZATION = `client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`;
+import { getUser } from '../../api/github';
 
 export class User extends Component {
   state = {
@@ -13,25 +11,13 @@ export class User extends Component {
     userNotFound: false,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { username } = this.props.match.params;
-    this.getUser(username);
-  }
-
-  getUser = async username => {
-    const res = await fetch(
-      `${GITHUB_API_URL}/users/${username}?${GITHUB_AUTHORIZATION}`,
+    const user = await getUser(username).catch(() =>
+      this.setState({ userNotFound: true }),
     );
-
-    if (res.status >= 404) {
-      this.setState({ userNotFound: true, loading: false });
-      return;
-    }
-
-    const data = await res.json();
-
-    this.setState({ user: data, loading: false });
-  };
+    this.setState({ user, loading: false });
+  }
 
   render() {
     const { user, loading, userNotFound } = this.state;

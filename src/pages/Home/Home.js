@@ -4,9 +4,7 @@ import Users from '../../components/Users';
 import Spinner from '../../components/Spinner';
 import Search from '../../components/Search';
 import Alert from '../../components/Alert';
-
-const GITHUB_API_URL = 'https://api.github.com';
-const GITHUB_AUTHORIZATION = `client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`;
+import { getUsers, searchUsers } from '../../api/github';
 
 export class Home extends Component {
   state = {
@@ -15,24 +13,16 @@ export class Home extends Component {
     alert: null,
   };
 
-  componentDidMount() {
-    this.getUsers();
+  async componentDidMount() {
+    const users = await getUsers();
+
+    this.setState({ users, loading: false });
   }
 
-  getUsers = async () => {
-    const res = await fetch(`${GITHUB_API_URL}/users?${GITHUB_AUTHORIZATION}`);
-    const data = await res.json();
+  search = async (searchTerm = '') => {
+    const users = await searchUsers(searchTerm);
 
-    this.setState({ users: data, loading: false });
-  };
-
-  searchUsers = async (searchTerm = '') => {
-    const res = await fetch(
-      `${GITHUB_API_URL}/search/users?q=${searchTerm}&${GITHUB_AUTHORIZATION}`,
-    );
-    const data = await res.json();
-
-    this.setState({ users: data.items, loading: false });
+    this.setState({ users, loading: false });
   };
 
   clearUsers = () => {
@@ -53,7 +43,7 @@ export class Home extends Component {
       <div className="container">
         <Alert alert={alert} />
         <Search
-          searchUsers={this.searchUsers}
+          searchUsers={this.search}
           clearUsers={this.clearUsers}
           shouldShowClearBtn={!!users.length}
           setAlert={this.setAlert}
