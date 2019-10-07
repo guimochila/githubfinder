@@ -1,37 +1,34 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Profile from '../../components/Profile';
 import Spinner from '../../components/Spinner';
 import { getUser } from '../../api/github';
 
-export class User extends Component {
-  state = {
-    user: {},
-    loading: true,
-    userNotFound: false,
-  };
+function User({ match }) {
+  const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [isUserNotFound, setIsUserNotFound] = useState(false);
 
-  async componentDidMount() {
-    const { username } = this.props.match.params;
-    const user = await getUser(username).catch(() =>
-      this.setState({ userNotFound: true }),
-    );
-    this.setState({ user, loading: false });
-  }
-
-  render() {
-    const { user, loading, userNotFound } = this.state;
-
-    if (loading) {
-      return <Spinner />;
+  useEffect(() => {
+    async function fetchUser() {
+      const { username } = match.params;
+      const user = await getUser(username).catch(() => setIsUserNotFound(true));
+      setUser(user);
+      setIsLoading(false);
     }
 
-    if (userNotFound) {
-      return <h1>Sorry, user not found.</h1>;
-    }
+    fetchUser();
+  }, [match.params]);
 
-    return <Profile user={user} />;
+  if (isLoading) {
+    return <Spinner />;
   }
+
+  if (isUserNotFound) {
+    return <h1>Sorry, user not found.</h1>;
+  }
+
+  return <Profile user={user} />;
 }
 
 export default User;
