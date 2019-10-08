@@ -1,43 +1,58 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 import githubLogoImg from '../../static/logo256.png';
 
-function Navbar({ icon, title }) {
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
+
+function Navbar({ title }) {
+  const classes = useStyles();
+
   return (
-    <nav className="navbar bg-primary">
-      <div
-        style={{
-          width: '180px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <img src={githubLogoImg} alt={title} style={{ width: '32px' }} />
-        <h1> {title}</h1>
-      </div>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-      </ul>
-    </nav>
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" className={classes.menuButton}>
+            <img src={githubLogoImg} alt={title} style={{ width: '32px' }} />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            {title}
+          </Typography>
+          <Button color="inherit" component={Link} to="/">
+            Home
+          </Button>
+          <Button color="inherit" component={Link} to="/about">
+            About
+          </Button>
+        </Toolbar>
+      </AppBar>
+    </div>
   );
 }
 
 Navbar.defaultProps = {
   title: 'Github Finder',
-  icon: 'fab fa-github',
 };
 
 Navbar.propTypes = {
   title: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
 };
 
 export default Navbar;
