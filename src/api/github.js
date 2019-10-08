@@ -1,13 +1,6 @@
 const GITHUB_API_URL = 'https://api.github.com';
 const GITHUB_AUTHORIZATION = `client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`;
 
-export const getUsers = async () => {
-  const res = await fetch(`${GITHUB_API_URL}/users?${GITHUB_AUTHORIZATION}`);
-  const data = await res.json();
-
-  return data;
-};
-
 export const getUser = async username => {
   const res = await fetch(
     `${GITHUB_API_URL}/users/${username}?${GITHUB_AUTHORIZATION}`,
@@ -29,4 +22,13 @@ export const searchUsers = async (searchTerm = '') => {
   const data = await res.json();
 
   return data.items;
+};
+
+export const getUserRepos = async username => {
+  const res = await fetch(
+    `${GITHUB_API_URL}/users/${username}/repos?per_page=5&sort=created:asc&${GITHUB_AUTHORIZATION}`,
+  );
+  const data = await res.json();
+
+  return data;
 };

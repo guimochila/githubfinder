@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 
 import Profile from '../../components/Profile';
+import Repo from '../../components/Repo';
 import Spinner from '../../components/Spinner';
-import { getUser } from '../../api/github';
+import { getUser, getUserRepos } from '../../api/github';
 
 function User({ match }) {
   const [user, setUser] = useState({});
+  const [repos, setRepos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isUserNotFound, setIsUserNotFound] = useState(false);
 
@@ -13,7 +15,9 @@ function User({ match }) {
     async function fetchUser() {
       const { username } = match.params;
       const user = await getUser(username).catch(() => setIsUserNotFound(true));
+      const repos = await getUserRepos(username);
       setUser(user);
+      setRepos(repos);
       setIsLoading(false);
     }
 
@@ -28,7 +32,14 @@ function User({ match }) {
     return <h1>Sorry, user not found.</h1>;
   }
 
-  return <Profile user={user} />;
+  return (
+    <Fragment>
+      <Profile user={user} />
+      {repos.map(repo => (
+        <Repo repo={repo} key={repo.id} />
+      ))}
+    </Fragment>
+  );
 }
 
 export default User;

@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
+import { useUsersState } from '../../context/users/users.context';
 import UserItem from '../UserItem';
 
 const userStyle = {
@@ -9,7 +9,9 @@ const userStyle = {
   gridGap: '1rem',
 };
 
-function Users({ users }) {
+function Users() {
+  const { users } = useUsersState();
+
   return (
     <div style={userStyle}>
       {users.map(user => (
@@ -18,9 +20,5 @@ function Users({ users }) {
     </div>
   );
 }
-
-Users.propTypes = {
-  users: PropTypes.array.isRequired,
-};
 
 export default Users;

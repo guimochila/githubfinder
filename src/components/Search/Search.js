@@ -1,21 +1,36 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function Search({ shouldShowClearBtn, clearUsers, searchUsers, setAlert }) {
+import {
+  useUsersDispatch,
+  clearUsersState,
+  searchUser,
+  setAlert,
+  removeAlert,
+} from '../../context/users/users.context';
+
+function Search({ shouldShowClearBtn }) {
   const [text, setText] = useState('');
+  const dispatch = useUsersDispatch();
 
   const onChange = e => {
     setText(e.target.value);
   };
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
 
     if (!text) {
-      return setAlert('Please enter a text', 'light');
+      setAlert(dispatch, 'Please enter a text', 'light');
+
+      setTimeout(() => {
+        removeAlert(dispatch);
+      }, 4000);
+
+      return;
     }
 
-    searchUsers(text);
+    await searchUser(dispatch, text);
     setText('');
   };
 
@@ -36,7 +51,10 @@ function Search({ shouldShowClearBtn, clearUsers, searchUsers, setAlert }) {
         />
       </form>
       {shouldShowClearBtn && (
-        <button className="btn btn-light btn-block" onClick={clearUsers}>
+        <button
+          className="btn btn-light btn-block"
+          onClick={() => clearUsersState(dispatch)}
+        >
           Clear
         </button>
       )}
@@ -45,10 +63,7 @@ function Search({ shouldShowClearBtn, clearUsers, searchUsers, setAlert }) {
 }
 
 Search.propTypes = {
-  searchUsers: PropTypes.func.isRequired,
   shouldShowClearBtn: PropTypes.bool.isRequired,
-  clearUsers: PropTypes.func.isRequired,
-  setAlert: PropTypes.func.isRequired,
 };
 
 export default Search;
