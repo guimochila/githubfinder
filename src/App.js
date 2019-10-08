@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import About from './pages/About';
 import Home from './pages/Home';
 import User from './pages/User';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:username" component={User} />
             <Route exact path="/about" component={About} />
+            <Route component={NotFound} />
           </Switch>
         </div>
       </Router>
