@@ -1,4 +1,5 @@
 import React, { useEffect, useState, Fragment } from 'react';
+import { Helmet } from 'react-helmet';
 
 import Profile from '../../components/Profile';
 import Repo from '../../components/Repo';
@@ -34,6 +35,9 @@ function User({ match }) {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>Github Finder | User {user.login || ''}</title>
+      </Helmet>
       <Profile user={user} />
       {repos.map(repo => (
         <Repo repo={repo} key={repo.id} />
