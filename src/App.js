@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+
 import './App.css';
 
 import { UsersProvider } from './context/users/users.context';
@@ -12,17 +14,19 @@ import NotFound from './pages/NotFound';
 function App() {
   return (
     <UsersProvider>
-      <Router>
-        <div className="App">
-          <Navbar />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/user/:username" component={User} />
-            <Route exact path="/about" component={About} />
-            <Route component={NotFound} />
-          </Switch>
-        </div>
-      </Router>
+      <HelmetProvider>
+        <Router>
+          <div className="App">
+            <Navbar />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/user/:username" component={User} />
+              <Route exact path="/about" component={About} />
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+        </Router>
+      </HelmetProvider>
     </UsersProvider>
   );
 }

@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
+
+import { version } from '../../../package.json';
 
 function About() {
   return (
@@ -10,7 +12,7 @@ function About() {
       <div className="all-center">
         <h1>About this App</h1>
         <p>App to search Github users</p>
-        <p>Version: {process.env.REACT_APP_VERSION}</p>
+        <p>Version: {version}</p>
       </div>
     </Fragment>
   );
