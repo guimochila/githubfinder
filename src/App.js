@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import Container from '@material-ui/core/Container';
 
 import './App.css';
 
@@ -18,12 +19,14 @@ function App() {
         <Router>
           <div className="App">
             <Navbar />
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/user/:username" component={User} />
-              <Route exact path="/about" component={About} />
-              <Route component={NotFound} />
-            </Switch>
+            <Container maxWidth="md">
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/user/:username" component={User} />
+                <Route exact path="/about" component={About} />
+                <Route component={NotFound} />
+              </Switch>
+            </Container>
           </div>
         </Router>
       </HelmetProvider>

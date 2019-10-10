@@ -4,6 +4,8 @@ import { useUsersState } from '../../context/users/users.context';
 import UserItem from '../UserItem';
 
 const userStyle = {
+  marginTop: '30px',
+  marginBottom: '20px',
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
   gridGap: '1rem',
