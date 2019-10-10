@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import Users from '../../components/Users';
 import Spinner from '../../components/Spinner';
@@ -10,11 +10,11 @@ function Home() {
   const { users, isLoading } = useUsersState();
 
   return (
-    <div className="container">
+    <Fragment>
       <Alert alert={alert} />
       <Search shouldShowClearBtn={!!users.length} />
       {isLoading ? <Spinner /> : <Users />}
-    </div>
+    </Fragment>
   );
 }
 
