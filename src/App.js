@@ -11,26 +11,29 @@ import About from './pages/About';
 import Home from './pages/Home';
 import User from './pages/User';
 import NotFound from './pages/NotFound';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
   return (
-    <UsersProvider>
-      <HelmetProvider>
-        <Router>
-          <div className="App">
-            <Navbar />
-            <Container maxWidth="md">
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/user/:username" component={User} />
-                <Route exact path="/about" component={About} />
-                <Route component={NotFound} />
-              </Switch>
-            </Container>
-          </div>
-        </Router>
-      </HelmetProvider>
-    </UsersProvider>
+    <ErrorBoundary>
+      <UsersProvider>
+        <HelmetProvider>
+          <Router>
+            <div className="App">
+              <Navbar />
+              <Container maxWidth="md">
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/user/:username" component={User} />
+                  <Route exact path="/about" component={About} />
+                  <Route component={NotFound} />
+                </Switch>
+              </Container>
+            </div>
+          </Router>
+        </HelmetProvider>
+      </UsersProvider>
+    </ErrorBoundary>
   );
 }
 
