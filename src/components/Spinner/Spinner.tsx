@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment } from 'react'
 
-import spinnerImg from '../../static/spinner.gif';
+import spinnerImg from '../../static/spinner.gif'
 
 function Spinner() {
   return (
@@ -11,7 +11,7 @@ function Spinner() {
         style={{ width: '200px', margin: 'auto', display: 'block' }}
       />
     </Fragment>
-  );
+  )
 }
 
-export default Spinner;
+export default Spinner
