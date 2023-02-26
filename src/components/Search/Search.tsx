@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react'
 
 import {
   useUsersDispatch,
@@ -7,32 +6,32 @@ import {
   searchUser,
   setAlert,
   removeAlert,
-} from '../../context/users/users.context';
+} from '../../context/users/users.context'
 
 function Search({ shouldShowClearBtn }) {
-  const [text, setText] = useState('');
-  const dispatch = useUsersDispatch();
+  const [text, setText] = useState('')
+  const dispatch = useUsersDispatch()
 
-  const onChange = e => {
-    setText(e.target.value);
-  };
+  const onChange = (e) => {
+    setText(e.target.value)
+  }
 
-  const onSubmit = async e => {
-    e.preventDefault();
+  const onSubmit = async (e) => {
+    e.preventDefault()
 
     if (!text) {
-      setAlert(dispatch, 'Please enter a text', 'light');
+      setAlert(dispatch, 'Please enter a text', 'light')
 
       setTimeout(() => {
-        removeAlert(dispatch);
-      }, 4000);
+        removeAlert(dispatch)
+      }, 4000)
 
-      return;
+      return
     }
 
-    await searchUser(dispatch, text);
-    setText('');
-  };
+    await searchUser(dispatch, text)
+    setText('')
+  }
 
   return (
     <div>
@@ -59,11 +58,7 @@ function Search({ shouldShowClearBtn }) {
         </button>
       )}
     </div>
-  );
+  )
 }
 
-Search.propTypes = {
-  shouldShowClearBtn: PropTypes.bool.isRequired,
-};
-
-export default Search;
+export default Search
