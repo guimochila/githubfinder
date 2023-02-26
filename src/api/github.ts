@@ -1,7 +1,7 @@
 const GITHUB_API_URL = 'https://api.github.com'
 const GITHUB_AUTHORIZATION = `client_id=${
-  import.meta.env.REACT_APP_GITHUB_CLIENT_ID
-}&client_secret=${import.meta.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+  import.meta.env.VITE_GITHUB_CLIENT_ID
+}&client_secret=${import.meta.env.VITE_GITHUB_CLIENT_SECRET}`
 
 export const getUser = async (username) => {
   const res = await fetch(
